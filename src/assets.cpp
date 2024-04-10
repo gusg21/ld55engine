@@ -23,8 +23,8 @@ Assets::Assets() {}
 Assets::Assets(const std::string &can_file) {
   std::ifstream can_stream(can_file);
 
-  char can_magic[5];
-  can_stream.get(can_magic, 5);
+  char can_magic[4];
+  can_stream.get(can_magic, 4);
   if (!(can_magic[0] == 'C' && can_magic[1] == 'A' && can_magic[2] == 'N' &&
         can_magic[3] == '!')) {
     printf("Malformed can file header!\n");
@@ -40,10 +40,11 @@ Assets::Assets(const std::string &can_file) {
     char name[512] = {0};
     ReadNullTerminated(can_stream, name);
 
-    int block_start, block_length;
-    can_stream.get((char *)&block_start, 5);
-    can_stream.get((char *)&block_length, 5);
-    printf("%s %d, %d\n", name, block_start, block_length);
+    uint32_t block_start, block_length, byte_length;
+    can_stream.get((char *)&block_start, 4);
+    can_stream.get((char *)&block_length, 4);
+    can_stream.get((char *)&byte_length, 4);
+    printf("%s starts at block %d, %d blocks, %d bytes\n", name, block_start, block_length, byte_length);
 
     block_count_ += block_length;
   }

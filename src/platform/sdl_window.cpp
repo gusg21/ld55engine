@@ -11,7 +11,7 @@ void SDLWindow::Open() {
   }
 }
 
-bool SDLWindow::Update() {
+bool SDLWindow::HandleEvents() {
   bool wants_close = false;
 
   SDL_Event event;

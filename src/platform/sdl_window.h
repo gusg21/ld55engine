@@ -9,7 +9,7 @@ class SDLWindow : public Window {
 public:
   SDLWindow() = default;
   virtual void Open() override;
-  virtual bool Update() override;
+  virtual bool HandleEvents() override;
 
 private:
   SDL_Window *window_ = nullptr;
